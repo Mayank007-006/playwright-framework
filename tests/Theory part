@@ -1,0 +1,30 @@
+first thing : The naming convention of the test scripts in playwright is examplename.spec.ts (here .spec is just a notation and nothing else) , .ts is the format
+ To Download playwright on vs , use the command : npx init playwright@latest (here latest means you are downloading the latest version of playwright)
+ IF the above command is throwing issues than use : npx init playwright@latest --force
+To run a test in playwright use the command , npx playwright test (it will run all the tests present)
+To run a specific test file use the command , npx playwright test TESTFILENAME.spec.ts
+After you have run the test , to see the report of the test in HTML format use the command :
+ npx playwright show--report
+So when we run the test in playwright , it run's on all three browsers : Chromium , Firefox , Webkit .
+So to run a test in just a single browser use command : npx playwright test --project = chromium 
+When we run tests in playwright , it run the tests in headless mode (basically we won't see the test running in front opf the eyes , it will happen in the background.)
+To see the tests run infront of your eyes like in real time we use this command  : 
+npx playwright test --project=chromium --headed
+
+Now suppose there are multiple tests in a single file , you just want to execute a single test . 
+To do that use the command : npx playwright test -g "has title" --project chromium (Here "test name")
+To skip a certain test write this in the code : test.skip 
+to run only a specific test write this in the infront of the test which you want to run : test.only
+To run the test in ui mode use the command : npx playwright test --ui
+With the playwright extension : we can do most of the above thing just through click rather than writing the code for everything.
+To Trace the steps like it happens in UI mode use command : npx playwright test --project=chromium --trace on
+To see the html file related to trace go to playwright-report => Trace => index.html
+To change the Trace settings it is available in playwright.config.ts , by default it will be 'On first try' , which means if the test scenario fails for the first time , it will try again and then log it.
+To generate the trace everytime , switch it to 'On' . It will generate the trace everhytime
+To run the code in debug mode use the command : npx playwright test --project=chromium --debug
+When we run the code in debug mode using the command , it will debug it in realtime so two panels will be open , one panel will be the code and second panel will be rela time application .
+Another way to debug is tu use the playwright extension testing , by naivgating there .
+
+If you want to play the recored vedio , there are two ways to  do it .
+    first Way  : Write npx playwright show-report , the open the report and play the vedio
+    second way is  : Navigate to src => test-results => here you will find the vedio => open it and right click and click on reveal in file explorer 
