@@ -1,0 +1,39 @@
+---
+pid: 21480
+cwd: "C:\Playwright Course\pw-practice-app"
+command: "Set-Location \"C:\\Playwright Course\\pw-practice-app\"; npm start"
+started_at: 2026-06-23T05:50:42.855Z
+running_for_ms: 645005   
+---
+
+> ngx-admin@10.0.0 start
+> ng serve
+
+- Generating browser application bundles (phase: setup)...
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files                                          | Names                                    |  Raw Size
+vendor.js                                                    | vendor                                   |   6.36 MB |
+styles.css, styles.js                                        | styles                                   |   1.88 MB |
+main.js                                                      | main                                     |   1.73 MB |
+scripts.js                                                   | scripts                                  | 953.90 kB |
+polyfills.js                                                 | polyfills                                | 495.58 kB |
+runtime.js                                                   | runtime                                  |  12.97 kB |
+
+| Initial Total                            |  11.40 MB
+
+Lazy Chunk Files                                             | Names                                    |  Raw Size
+src_app_pages_pages_module_ts.js                             | pages-pages-module                       |   8.33 MB |
+src_app_pages_charts_charts_module_ts.js                     | charts-charts-module                     |   3.08 MB |
+src_app_pages_modal-overlays_modal-overlays_module_ts.js     | modal-overlays-modal-overlays-module     |   2.45 MB |
+src_app_pages_tables_tables_module_ts.js                     | tables-tables-module                     |   1.58 MB |
+src_app_pages_extra-components_extra-components_module_ts.js | extra-components-extra-components-module |   1.26 MB |
+src_app_pages_forms_forms_module_ts.js                       | forms-forms-module                       | 335.32 kB |
+default-node_modules_tslib_tslib_es6_js.js                   | charts-charts-module                     |  16.96 kB |
+
+Build at: 2026-06-23T05:51:06.436Z - Hash: a08891e270ef6a36 - Time: 15106ms
+
+** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **
+
+
+√ Compiled successfully.

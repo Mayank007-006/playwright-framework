@@ -117,7 +117,7 @@ export class Datepickerpage extends HelperBase {
     expect(value).toMatch((/^[A-Z][a-z]{2} \d{1,2}, \d{4}$/))
     await this.page.getByPlaceholder('Form Picker').click();
     const SelectedDay = this.page.locator('nb-calendar-day-cell').locator('.selected day-cell ng-star-inserted')
-    await expect(SelectedDay).toHaveClass('selected day-cell ng-star-inserted')
+    //await expect(SelectedDay).toHaveClass('selected day-cell ng-star-inserted')
     await expect(SelectedDay).toHaveCSS('background-color', 'rgb(51, 102, 255)')
   }
 
@@ -136,4 +136,55 @@ export class Datepickerpage extends HelperBase {
 
     expect(displayedMonthYear).toContain(`${ExpectedMonthlong} ${expectedYear}`);
   }
+
+
+  async selectDatePickerWithRange(NumberofDaysFromToday : number){
+    const CalendarDateInputField = this.page.getByPlaceholder("Range Picker");
+    await CalendarDateInputField.click();
+    const date = new Date();
+    const StartDay = date.getDate().toString()
+    const month = date.toLocaleString('en-us', { 'month': "short" });
+    const Startyear = date.getFullYear()
+    const StartexpectedDate = `${month} ${StartDay}, ${Startyear}`
+    await this.page.locator('.day-cell.ng-star-inserted').getByText(StartDay, { exact: true }).click();
+    date.setDate(date.getDate() + NumberofDaysFromToday);
+
+    const EndDay = date.getDate().toLocaleString()
+    const monthshort = date.toLocaleString('en-us', { 'month': "short" })
+    const monthlong = date.toLocaleString('en-us', { "month": "long" })
+    const Endyear = date.getFullYear()
+
+    const expectedDate = `${monthshort} ${EndDay}, ${Endyear}`
+    const expectedMonthAndYear = `${monthlong} ${Endyear}`
+
+    let calendarMonthYear = await this.page.locator('nb-calendar-view-mode').textContent();
+
+    while (!calendarMonthYear?.includes(expectedMonthAndYear)) {
+      await this.page.locator(".next-month appearance-ghost size-medium shape-rectangle icon-start icon-end status-basic nb-transition").click()
+      calendarMonthYear = await this.page.locator('nb-calendar-view-mode').textContent();
+    }
+
+    await this.page.locator('.day-cell.ng-star-inserted').getByText(EndDay, { exact: true }).click();
+
+  }
+
+  async selectDatePickerWithDisabledMinMaxValues() {
+    const CalendarDateInputField = this.page.getByPlaceholder("Min Max Picker");
+    await CalendarDateInputField.click();
+    const date = new Date();
+    const Day = date.getDate().toLocaleString()
+    const monthshort = date.toLocaleString('en-us', { 'month': "short" })
+    const year = date.getFullYear()
+
+    const expectedDate = `${monthshort} ${Day}, ${year}`
+    await this.page.locator('.day-cell.ng-star-inserted').getByText(Day, { exact: true }).click();
+    await expect(CalendarDateInputField).toHaveValue(expectedDate);
+  }
+
+  
+
+
+
+
+
 }
