@@ -78,6 +78,9 @@ export class PopoverPage extends HelperBase {
     }
     const ButtonBox = await OnlickBTN.boundingBox()
     const Popup = await PopOver.boundingBox()
+    if (!ButtonBox || !Popup) {
+      throw new Error('Element is not visible')
+    }
     expect(Popup.y + Popup.height).toBeLessThan(ButtonBox.y)
     await expect(PopOver).toHaveText('Hello, how are you today?')
   }
@@ -189,3 +192,4 @@ export class PopoverPage extends HelperBase {
     await expect(popover.locator('nb-card-body')).toHaveText(' Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. ')
   }
 }
+

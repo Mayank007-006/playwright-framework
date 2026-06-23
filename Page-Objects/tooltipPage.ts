@@ -56,6 +56,9 @@ export class TooltipPage extends HelperBase {
     await expect(ShowTooltipBTN).toHaveAttribute('nbtooltipicon', 'home-outline')
     const ButtonBox = await ShowTooltipBTN.boundingBox()
     const Tooltipbox = await Tooltip.boundingBox()
+    if (!ButtonBox || !Tooltipbox) {
+      throw new Error('Element not visible');
+    }
     expect(Tooltipbox.y + Tooltipbox.height).toBeLessThan(ButtonBox.y)
     await Tooltip.evaluate(el =>
       window.getComputedStyle(el).backgroundColor
@@ -73,6 +76,9 @@ export class TooltipPage extends HelperBase {
     await expect(ShowTooltipBTN).toHaveAttribute('nbtooltipstatus', 'danger')
     const ButtonBox = await ShowTooltipBTN.boundingBox()
     const Tooltipbox = await Tooltip.boundingBox()
+    if (!ButtonBox || !Tooltipbox) {
+      throw new Error('Element not visible');
+    }
     expect(Tooltipbox.y + Tooltipbox.height).toBeLessThan(ButtonBox.y)
     const bgColor = await Tooltip.evaluate(el =>
       window.getComputedStyle(el).backgroundColor
