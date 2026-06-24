@@ -18,14 +18,25 @@ End-to-end UI automation framework built with [Playwright](https://playwright.de
 
 ## Test Coverage
 
-| Area | Scenarios |
-|------|-----------|
-| **Forms** | Inline, grid, basic, block, horizontal, and label-less layouts |
-| **Date Picker** | Calendar popups, today's date, future date selection |
-| **Modal & Overlays** | Dialogs, windows, popovers, toasts, tooltips |
-| **Tables** | Smart table validation, filtering, pagination, CRUD |
-| **Authentication** | Login, register, request password, change password |
-| **Advanced** | Auto-waiting, drag-and-drop, iframes, custom fixtures |
+| Area | Spec file | Scenarios |
+|------|-----------|-----------|
+| **Forms** | `forms.spec.ts` | Inline, grid, basic, block, horizontal, and label-less layouts |
+| **Form fixtures** | `test-Fixtures.spec.ts` | Form layouts via custom `pageManager` fixture |
+| **Date Picker** | `date.spec.ts` | Page validation, calendar popups, today's date, future dates, range, min/max |
+| **Dialog** | `dialog.spec.ts` | Open/close, all dialog types, result return |
+| **Window** | `window.spec.ts` | Form windows, template windows, backdrop options |
+| **Popover** | `popover.spec.ts` | Position, simple/template/component popovers, tabs, forms, cards |
+| **Toastr** | `toaster.spec.ts` | Page validation, position, multiple toast scenarios |
+| **Tooltip** | `tooltip.spec.ts` | Icon tooltips, placement (top/right/bottom/left), colored variants |
+| **Tables** | `webTables.spec.ts` | Header validation, CRUD, filtering, pagination, data integrity |
+| **Login** | `login.spec.ts` | Page validation, error messages, successful login |
+| **Register** | `register.spec.ts` | Page validation, error messages, user registration |
+| **Request Password** | `requestPassword.spec.ts` | Validation, error messages, request flow, cross-page navigation |
+| **Change Password** | `changePassword.spec.ts` | Validation, error messages, reset flow, cross-page navigation |
+| **Auto-waiting** | `AutoWaiting.spec.ts` | AJAX waits, selector timeouts, auto-wait behavior |
+| **Drag & Drop** | `DragAndDrop.spec.ts` | iFrame interaction, drag-and-drop on external demo site |
+| **Locators (practice)** | `ignore.spec.ts` | Locator syntax, user-facing locators, parent/child elements, assertions |
+| **Inputs (practice)** | `playingaround.spec.ts` | Input fields, radios, checkboxes, dialogs, tables, date picker concepts |
 
 ---
 
@@ -38,9 +49,20 @@ Page-Objects/             → Page Object classes
   ├── pageManager.ts      → Central hub — exposes all page objects
   ├── navigationPage.ts   → Sidebar navigation
   ├── FormLayouts.ts      → Form interaction methods
-  └── ...                 → Feature-specific page objects
+  ├── datePicker.ts       → Date picker interactions
+  ├── dialog.ts           → Dialog interactions
+  ├── windowpage.ts       → Window modal interactions
+  ├── popoverpage.ts      → Popover interactions
+  ├── toasterPage.ts      → Toastr notification interactions
+  ├── tooltipPage.ts      → Tooltip interactions
+  ├── loginPage.ts        → Login page interactions
+  ├── registerpage.ts     → Register page interactions
+  ├── requestPassword.ts  → Request password interactions
+  ├── changePassword.ts   → Change password interactions
+  └── webTables.ts        → Smart table interactions
 test-options.ts           → Custom Playwright fixtures
 playwright.config.ts      → Global test configuration
+Screenshots/              → Screenshots captured during test runs
 ```
 
 **Page Manager pattern:** Tests interact with a single `PageManager` instance, which delegates to focused page objects. This keeps tests readable and locators maintainable.
@@ -50,7 +72,8 @@ Test → PageManager → NavigationPage / FormLayoutPage / LoginPage / ...
 ```
 
 **Custom fixtures** (`test-options.ts`):
-- `pageManager` — pre-initialized PageManager injected into tests
+- `pageManager` — pre-initialized `PageManager` injected into tests
+- `FormlayoutsPage` — navigates to Form Layouts before the test runs
 - `globalsQAURL` — configurable external URL for cross-site scenarios (e.g. drag-and-drop demo)
 
 ---
@@ -104,24 +127,31 @@ Playwright is configured to start the Angular dev server automatically via `webS
 npx playwright test
 ```
 
-### Run the main Page Object suite
+### Run feature specs (Page Object Model suite)
 
 ```bash
-npx playwright test usePageObjects.spec.ts
+npx playwright test forms.spec.ts date.spec.ts dialog.spec.ts window.spec.ts popover.spec.ts toaster.spec.ts tooltip.spec.ts webTables.spec.ts login.spec.ts register.spec.ts requestPassword.spec.ts changePassword.spec.ts
+```
+
+### Run foundational / practice specs
+
+```bash
+npx playwright test AutoWaiting.spec.ts DragAndDrop.spec.ts ignore.spec.ts playingaround.spec.ts test-Fixtures.spec.ts
 ```
 
 ### Run on a specific browser
 
 ```bash
-npx playwright test --project=dev        # Chrome (default dev project)
-npx playwright test --project=firefox
-npx playwright test --project=webkit
+npx playwright test --project=dev       # Desktop Chrome
+npx playwright test --project=firefox   # Desktop Firefox
+npx playwright test --project=webkit    # Desktop Safari
 ```
 
 ### Run a single test file
 
 ```bash
-npx playwright test firstTest.spec.ts
+npx playwright test login.spec.ts
+npx playwright test webTables.spec.ts
 npx playwright test DragAndDrop.spec.ts
 npx playwright test AutoWaiting.spec.ts
 ```
@@ -150,7 +180,7 @@ npx playwright show-report
 
 ```
 pw-practice-app/
-├── Page-Objects/           # Page Object Model classes
+├── Page-Objects/              # Page Object Model classes
 │   ├── pageManager.ts
 │   ├── helperBase.ts
 │   ├── navigationPage.ts
@@ -166,16 +196,28 @@ pw-practice-app/
 │   ├── requestPassword.ts
 │   ├── changePassword.ts
 │   └── webTables.ts
-├── tests/                  # Test specifications
-│   ├── usePageObjects.spec.ts   # Main regression suite (POM)
-│   ├── firstTest.spec.ts        # Locators, assertions, parent/child elements
-│   ├── Inputfields.spec.ts      # Inputs, radios, tables, date picker
-│   ├── AutoWaiting.spec.ts      # Auto-wait and timeout strategies
-│   ├── DragAndDrop.spec.ts      # iFrames and drag-and-drop
-│   └── test-Fixtures.spec.ts    # Custom fixture usage
-├── test-options.ts         # Extended test with custom fixtures
-├── playwright.config.ts    # Playwright configuration
-└── src/                    # Angular application (ngx-admin)
+├── tests/                     # Test specifications
+│   ├── forms.spec.ts          # Form layouts (POM)
+│   ├── test-Fixtures.spec.ts  # Custom fixture usage
+│   ├── date.spec.ts           # Date picker (POM)
+│   ├── dialog.spec.ts         # Dialog modals (POM)
+│   ├── window.spec.ts         # Window modals (POM)
+│   ├── popover.spec.ts        # Popovers (POM)
+│   ├── toaster.spec.ts        # Toastr notifications (POM)
+│   ├── tooltip.spec.ts        # Tooltips (POM)
+│   ├── webTables.spec.ts      # Smart table CRUD & filters (POM)
+│   ├── login.spec.ts          # Login flow (POM)
+│   ├── register.spec.ts       # Registration flow (POM)
+│   ├── requestPassword.spec.ts
+│   ├── changePassword.spec.ts
+│   ├── AutoWaiting.spec.ts    # Auto-wait and timeout strategies
+│   ├── DragAndDrop.spec.ts    # iFrames and drag-and-drop
+│   ├── ignore.spec.ts         # Locator syntax and assertions (practice)
+│   └── playingaround.spec.ts  # Inputs, tables, date picker (practice)
+├── Screenshots/               # Screenshots saved during test execution
+├── test-options.ts            # Extended test with custom fixtures
+├── playwright.config.ts       # Playwright configuration
+└── src/                       # Angular application (ngx-admin)
 ```
 
 ---

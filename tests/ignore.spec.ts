@@ -52,7 +52,7 @@ test('Finding Parent elements', async ({ page }) => {
 
 test('Resuing the Locators by assigning it to a const value', async ({ page }) => {
   const BasicForm = page.locator('nb-card').filter({ hasText: "Basic form" })
-  await BasicForm.getByRole('textbox', { name: 'Password' }).fill("Fuckyou")
+  await BasicForm.getByRole('textbox', { name: 'Password' }).fill("Test@123")
   await BasicForm.locator('nb-checkbox').click()
   await BasicForm.getByRole("button", { name: "Submit" }).click();
   const emailValue = BasicForm.getByRole('textbox', { name: 'Email' })
