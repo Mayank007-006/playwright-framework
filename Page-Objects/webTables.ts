@@ -29,11 +29,11 @@ export class WebTablespage extends HelperBase {
     await expect(AddBTN).toBeVisible();
   }
 
-  async addNewRecord(ID: string, Firstname: string, lastName: string, UserName: string, Email: string, Age: string) {
+  async addNewRecord(ID: Number, Firstname: string, lastName: string, UserName: string, Email: string, Age: Number) {
     const AddBTN = this.page.locator('.ng2-smart-action-add-add')
     await AddBTN.click()
     const IDField = this.page.locator('tr input-editor').getByPlaceholder('ID')
-    await IDField.fill(ID)
+    await IDField.fill(ID.toString())
     const FirstnameField = this.page.locator('tr input-editor').getByPlaceholder('First Name')
     await FirstnameField.fill(Firstname)
 
@@ -47,17 +47,17 @@ export class WebTablespage extends HelperBase {
     await EmailField.fill(Email)
 
     const AgeField = this.page.locator('tr input-editor').getByPlaceholder('Age')
-    await AgeField.fill(Age)
+    await AgeField.fill(Age.toString())
 
     await this.page.locator('ng2-st-actions .ng2-smart-action-add-create').click();
 
     const NewRow = this.page.locator('tr.ng2-smart-row.selected')
-    await expect(NewRow.locator('td').nth(1)).toHaveText(ID);
+    await expect(NewRow.locator('td').nth(1)).toHaveText(ID.toString());
     await expect(NewRow.locator('td').nth(2)).toHaveText(Firstname);
     await expect(NewRow.locator('td').nth(3)).toHaveText(lastName);
     await expect(NewRow.locator('td').nth(4)).toHaveText(UserName);
     await expect(NewRow.locator('td').nth(5)).toHaveText(Email);
-    await expect(NewRow.locator('td').nth(6)).toHaveText(Age);
+    await expect(NewRow.locator('td').nth(6)).toHaveText(Age.toString());
 
     this.page.once('dialog', async dialog => {
       console.log('Dialog appeared');
@@ -65,12 +65,12 @@ export class WebTablespage extends HelperBase {
       await dialog.accept('ok');
     });
     await this.page.locator('.ng2-smart-action-delete-delete').first().click();
-    await expect(NewRow.locator('td').nth(1)).not.toHaveText(ID);
+    await expect(NewRow.locator('td').nth(1)).not.toHaveText(ID.toString());
     await expect(NewRow.locator('td').nth(2)).not.toHaveText(Firstname);
     await expect(NewRow.locator('td').nth(3)).not.toHaveText(lastName);
     await expect(NewRow.locator('td').nth(4)).not.toHaveText(UserName);
     await expect(NewRow.locator('td').nth(5)).not.toHaveText(Email);
-    await expect(NewRow.locator('td').nth(6)).not.toHaveText(Age);
+    await expect(NewRow.locator('td').nth(6)).not.toHaveText(Age.toString());
   }
 
   async editingAnExistingRecord(UniqueValue: string, UpdatedValue: string) {
@@ -92,11 +92,11 @@ export class WebTablespage extends HelperBase {
     await dialog.accept();
   }
 
-  async cancellingDeleteRecordinPopup(ID: string, Firstname: string, lastName: string, UserName: string, Email: string, Age: string) {
+  async cancellingDeleteRecordinPopup(ID: Number, Firstname: string, lastName: string, UserName: string, Email: string, Age: Number) {
     const AddBTN = this.page.locator('.ng2-smart-action-add-add')
     await AddBTN.click()
     const IDField = this.page.locator('tr input-editor').getByPlaceholder('ID')
-    await IDField.fill(ID)
+    await IDField.fill(ID.toString())
     const FirstnameField = this.page.locator('tr input-editor').getByPlaceholder('First Name')
     await FirstnameField.fill(Firstname)
 
@@ -110,17 +110,17 @@ export class WebTablespage extends HelperBase {
     await EmailField.fill(Email)
 
     const AgeField = this.page.locator('tr input-editor').getByPlaceholder('Age')
-    await AgeField.fill(Age)
+    await AgeField.fill(Age.toString())
 
     await this.page.locator('ng2-st-actions .ng2-smart-action-add-create').click();
 
     const NewRow = this.page.locator('tr.ng2-smart-row.selected')
-    await expect(NewRow.locator('td').nth(1)).toHaveText(ID);
+    await expect(NewRow.locator('td').nth(1)).toHaveText(ID.toString());
     await expect(NewRow.locator('td').nth(2)).toHaveText(Firstname);
     await expect(NewRow.locator('td').nth(3)).toHaveText(lastName);
     await expect(NewRow.locator('td').nth(4)).toHaveText(UserName);
     await expect(NewRow.locator('td').nth(5)).toHaveText(Email);
-    await expect(NewRow.locator('td').nth(6)).toHaveText(Age);
+    await expect(NewRow.locator('td').nth(6)).toHaveText(Age.toString());
 
     this.page.once('dialog', async dialog => {
       console.log('Dialog appeared');
@@ -128,12 +128,12 @@ export class WebTablespage extends HelperBase {
       await dialog.dismiss();
     });
     await this.page.locator('.ng2-smart-action-delete-delete').first().click();
-    await expect(NewRow.locator('td').nth(1)).toHaveText(ID);
+    await expect(NewRow.locator('td').nth(1)).toHaveText(ID.toString());
     await expect(NewRow.locator('td').nth(2)).toHaveText(Firstname);
     await expect(NewRow.locator('td').nth(3)).toHaveText(lastName);
     await expect(NewRow.locator('td').nth(4)).toHaveText(UserName);
     await expect(NewRow.locator('td').nth(5)).toHaveText(Email);
-    await expect(NewRow.locator('td').nth(6)).toHaveText(Age);
+    await expect(NewRow.locator('td').nth(6)).toHaveText(Age.toString());
   }
 
   async filterByFirstName(Firstname: string) {
